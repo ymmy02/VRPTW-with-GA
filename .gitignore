@@ -1,5 +1,6 @@
 .DS_Store
 *.png
 test/
+reference/
 results/
 __pycache__/
