@@ -44,20 +44,8 @@ def _does_left_dominate_right(candidate, counterpart):
 def _create_individual(nodes):
     customers_id_list = nodes.get_customers_id_list()
     chromosome = []
-    size = len(customers_id_list)
-    cut1 = 0
-    cut2 = 0
     random.shuffle(customers_id_list)
-    while cut1 < size:
-        for cut2 in range(cut1+1, size+1):
-            route = customers_id_list[cut1:cut2]
-            if not nodes.is_feasible(route):
-                cut1 = cut2 - 1
-                route = route[:-1]
-                break
-        else:
-            cut1 = cut2
-        chromosome.append(route)
+    chromosome = shape_flat_to_vehicles(nodes, customers_id_list)
     individual = Individual(chromosome)
     return individual
 
@@ -65,6 +53,24 @@ def _create_individual(nodes):
 ##########
 # Public #
 ##########
+def shape_flat_to_vehicles(nodes, flatten_list):
+    chromosome = []
+    size = len(flatten_list)
+    cut1 = 0
+    cut2 = 0
+    while cut1 < size:
+        for cut2 in range(cut1+1, size+1):
+            route = flatten_list[cut1:cut2]
+            if not nodes.is_feasible(route):
+                cut1 = cut2 - 1
+                route = route[:-1]
+                break
+        else:
+            cut1 = cut2
+        chromosome.append(route)
+    return chromosome
+
+
 def create_individual_list(population, nodes):
   indv_list = [_create_individual(nodes) for _ in range(population)]
   return indv_list

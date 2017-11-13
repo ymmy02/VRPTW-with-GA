@@ -104,22 +104,6 @@ def _bcrc(nodes, ch1, ch2):
 
 
 #===<Uniform Order Crossover(UOX)>===#
-def _shape_flat_to_vehicles(nodes, flatten_list)
-    chromosome = []
-    cut1 = 0
-    cut2 = 0
-    while cut1 < size:
-        for cut2 in range(cut1+1, size+1):
-            route = flatten_list[cut1:cut2]
-            if not nodes.is_feasible(route):
-                cut1 = cut2 - 1
-                route = route[:-1]
-                break
-        else:
-            cut1 = cut2
-        chromosome.append(route)
-    return chromosome
-
 def _uox(nodes, ch1, ch2):
     flattench1 = ut.flatten(ch1)
     flattench2 = ut.flatten(ch2)
@@ -138,8 +122,8 @@ def _uox(nodes, ch1, ch2):
             insert_index = tmpch2.index(0)
             tmpch1[insert_index] = flattench1[i]
 
-    tmpch1 = _shape_flat_to_vehicles(nodes, tmpch1)
-    tmpch2 = _shape_flat_to_vehicles(nodes, tmpch2)
+    tmpch1 = fnc.shape_flat_to_vehicles(nodes, tmpch1)
+    tmpch2 = fnc.shape_flat_to_vehicles(nodes, tmpch2)
 
     return tmpch1, tmpch2
 
