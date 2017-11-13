@@ -25,7 +25,13 @@ class Node(object):
     def get_dem(self):
         return self._demand
 
-    def get_stime(self):
+    def get_readytime(self):
+        return self._ready_time
+
+    def get_duedate(self):
+        return self._due_date
+
+    def get_servicetime(self):
         return self._service_time
 
     def print_info(self):
@@ -64,6 +70,11 @@ class NodeList(list):
                     return self._depot
         return self._depot
 
+    def get_node_from_id(self, id_):
+        for node in self:
+            if node.get_id() == id_:
+                return node
+
     def get_customers(self):
         return [costomer for costomer in self if costomer.get_type()==1]
 
@@ -76,9 +87,27 @@ class NodeList(list):
                 return node.get_pos()
 
     def is_feasible(self, route):
-        amount = 0
+        # Capacity check
+        amount = 0.0
         for node in self:
             if node.get_id() in route:
                 amount += node.get_dem()
-                is_feasible = (amount < self._capacity)
-        return is_feasible
+        if amount > self._capacity:
+            print("capacity over")
+            return False
+
+        # Time Window check
+        t = 0.0
+        for id_ in route:
+            node = self.get_node_from_id(id_)
+            ready_time = node.get_readytime()
+            due_date = node.get_duedate()
+            service_time = node.get_servicetime()
+            t = max(t, ready_time) + service_time
+            if t > due_date:
+                return False
+        depot = self.get_depot()
+        if t > depot.get_duedate():
+            return False
+
+        return True
