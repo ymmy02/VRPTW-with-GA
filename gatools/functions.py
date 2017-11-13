@@ -89,7 +89,7 @@ def calc_distance(nodes, chromosome):
     return total_distance
 
 
-def weight_sum_evaluate(nvehicle, distance, w_nvehicle=100, w_distance=0.001):
+def wsum_evaluate(nvehicle, distance, w_nvehicle=100, w_distance=0.001):
     fitness = w_nvehicle*nvehicle + w_distance*distance
     return fitness
 
