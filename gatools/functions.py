@@ -65,10 +65,6 @@ def _create_individual(nodes):
 ##########
 # Public #
 ##########
-def flatten(chromosome):
-    return [node for route in chromosome for node in route]
-
-
 def create_individual_list(population, nodes):
   indv_list = [_create_individual(nodes) for _ in range(population)]
   return indv_list
