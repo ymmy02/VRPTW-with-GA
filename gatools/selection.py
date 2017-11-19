@@ -21,16 +21,6 @@ def _tournament(parents, tournament_size):
 
 
 def _ranksum(parents, tournament_size):
-    distance_list = [for indv.distance in parents]
-    nvehicle_list = [for indv.get_nvehicle() in parents]
-
-    distance_list = list(set(distance_list))
-    nvehicle_list = list(set(nvehicle_list))
-
-    for indv in parents:
-        indv.fitness = distance_list.index(indv.distance)+1 \
-                nvehicle_list.index(indv.get_nvehicle())+1
-
     return _tournament(parents, tournament_size)
 
 
@@ -69,7 +59,8 @@ def done(switch, parents, tournament_size=3):
     elif switch == "ranksum":
         offsprings = _ranksum(parents, tournament_size)
     else:
-        print("!!!!! [selection/done] switch doesn't has such paramerter !!!!!")
+        print("!!!!! [selection/done] switch doesn't has such paramerter:", \
+                switch, "!!!!!")
         sys.exit()
 
     return offsprings
