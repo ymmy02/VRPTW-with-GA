@@ -72,13 +72,14 @@ def _inversion(nodes, offsprings, rate, irate):
 ##########
 # Public #
 ##########
-def done(switch, nodes, offsprings, rate=0.5, irate=0.02):
+def done(switch, nodes, offsprings, rate=0.3, irate=0.02):
     if switch == "insersion":
         new_offsprings =  _insertion(nodes, offsprings, rate, irate)
     elif switch == "inversion":
         new_offsprings =  _inversion(nodes, offsprings, rate)
     else:
-        print("!!!!! [mutation/done] switch doesn't has such paramerter !!!!!")
+        print("!!!!! [mutation/done] switch doesn't has such paramerter:", \
+                switch, "!!!!!")
         sys.exit()
 
     return new_offsprings
