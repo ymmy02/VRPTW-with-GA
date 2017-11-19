@@ -148,7 +148,7 @@ def _uniform_order_crossover(nodes, offsprings, rate):
 ##########
 # Public #
 ##########
-def done(switch, nodes, offsprings, rate=0.5):
+def done(switch, nodes, offsprings, rate=0.6):
     if switch == "uox":
         new_offsprings =  _uniform_order_crossover(nodes, offsprings, rate)
     elif switch == "rc":
@@ -156,7 +156,8 @@ def done(switch, nodes, offsprings, rate=0.5):
     elif switch == "bcrc":
         new_offsprings = _best_cost_route_crossover(nodes, offsprings, rate)
     else:
-        print("!!!!! [corssover/done] switch doesn't has such paramerter !!!!!")
+        print("!!!!! [crossover/done] switch doesn't has such paramerter:", \
+                switch, "!!!!!")
         sys.exit()
 
     return new_offsprings
