@@ -2,23 +2,28 @@ import time
 
 class Timer(object):
 
-    def __init__(self):
+    @staticmethod
+    def init():
         Timer.stttime = {}
         Timer.ttltime = {}
-        Timer.checkpoint = {}
+        Timer.subttl = {}
 
     @staticmethod
     def start(key):
-        Timer.checkpoint[key] = {}
+        if key not in Timer.ttltime:
+            Timer.ttltime[key] = 0.0
+            Timer.subttl[key] = {}
         Timer.stttime[key] = time.time()
 
     @staticmethod
     def end(key):
-        Timer.ttltime[key] = time.time() - Timer.stttime[key]
+        Timer.ttltime[key] += time.time() - Timer.stttime[key]
 
     @staticmethod
     def check(key, subkey):
-        Timer.checkpoint[key][subkey] = time.time()
+        if subkey not in Timer.subttl[key]:
+            Timer.subttl[key][subkey] = 0.0
+        Timer.subttl[key][subkey] += time.time() - Timer.stttime[key]
 
     @staticmethod
     def write(path=""):
@@ -30,16 +35,16 @@ class Timer(object):
         f.write(" Calculation Time\n")
         f.write("*" * 50 + "\n")
 
-        for key, value in Timer.ttltime.items():
+        for key, ttl in Timer.ttltime.items():
             f.write(key + "\n")
-            f.write("Total Time : " + "{:.5f}".format(value) + " [sec]\n")
+            f.write("Total Time : " + "{:.5f}".format(ttl) + " [sec]\n")
             f.write("-" * 50 + "\n")
-            tmp = Timer.stttime[key]
-            for subkey, checkpoint in Timer.checkpoint[key].items():
-                second = checkpoint - tmp
-                parcentage = second / value
+            tmp = 0.0
+            for subkey, subttl in Timer.subttl[key].items():
+                second = subttl - tmp
+                parcentage = second / ttl
                 f.write(subkey + " : " + "{:.5f}".format(second) + " [sec]" + "{:.2%}".format(parcentage)+ " [%]\n")
-                tmp = checkpoint
+                tmp = subttl
             f.write("*" * 50 + "\n")
 
         f.close()
