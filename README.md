@@ -20,6 +20,7 @@ http://w.cba.neu.edu/~msolomon/problems.htm
 
 ### Others
 
+- time
 - numpy
 - random
 - copy
@@ -29,6 +30,7 @@ http://w.cba.neu.edu/~msolomon/problems.htm
 
 ### Selection
 - Weight Sum method
+- Rank Sum method
 - Pareto Ranking Selection
 
 ### Crossover
@@ -39,7 +41,7 @@ http://w.cba.neu.edu/~msolomon/problems.htm
 
 ### Mutation
 
-- Insert Mutation
+- Inversion Mutation
 
 ## Execution
 
