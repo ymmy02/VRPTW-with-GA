@@ -2,9 +2,10 @@ import sys, os
 
 import ut
 from timer import Timer
-from logger import print_log
 from gatools import functions as fnc
-from gatools import selection, crossover, mutation
+from gatools import selection as slc
+from gatools import crossover as crs
+from gatools import mutation as mut
 
 class VRPTW(object):
     
@@ -18,7 +19,7 @@ class VRPTW(object):
         self.distance_bests = []
 
     def gaoptimize(self, nodes, population=100, generation_span=100, \
-           selection="parato", crossover="bcrc", mutation="inversion", \
+           selection="pareto", crossover="bcrc", mutation="inversion", \
            w_nvehicle=100, w_distance=0.01, tournament_size=3, \
            cx_rate=0.6, mu_rate=0.2, mu_irate=0.03):
 
@@ -39,14 +40,14 @@ class VRPTW(object):
             for indv in parents:
                 indv.fitness = fnc.wsum_evaluate(indv.get_nvehicle(), \
                         indv.distance, w_nvehicle, w_distance)
-        elif switch == "ranksum":
-            distance_list = [for indv.distance in parents]
-            nvehicle_list = [for indv.get_nvehicle() in parents]
+        elif selection == "ranksum":
+            distance_list = [indv.distance for indv in parents]
+            nvehicle_list = [indv.get_nvehicle() for indv in parents]
             distance_list = list(set(distance_list))
             nvehicle_list = list(set(nvehicle_list))
             for indv in indv_list:
                 indv.fitness = distance_list.index(indv.distance)+1 \
-                        nvehicle_list.index(indv.get_nvehicle())+1
+                        + nvehicle_list.index(indv.get_nvehicle())+1
         self._record(selection, 0, parents)
         Timer.check("optimize", "initalize")
 
@@ -57,12 +58,11 @@ class VRPTW(object):
         loopcount = 0
         while loopcount < generation_span:
             # Selection
-            offsprings = selection.done(selection, parents)
+            offsprings = slc.done(selection, parents)
             # Crossover
-            offsprings = crossover.done(crossover, nodes, offsprings, rate=cx_rate)
+            offsprings = crs.done(crossover, nodes, offsprings, rate=cx_rate)
             # Mutation
-            offsprings = mutation.done(mutation, nodes, offsprings, \
-                    rate=mu_rate, irate=mu_irate)
+            offsprings = mut.done(mutation, nodes, offsprings, rate=mu_rate, irate=mu_irate)
             # Change Generation
             parents = offsprings[:]
             # Calc Distance
@@ -72,14 +72,14 @@ class VRPTW(object):
                 for indv in parents:
                     indv.fitness = fnc.wsum_evaluate(indv.get_nvehicle(), \
                             indv.distance, w_nvehicle, w_distance)
-            elif switch == "ranksum":
-                distance_list = [for indv.distance in parents]
-                nvehicle_list = [for indv.get_nvehicle() in parents]
+            elif selection == "ranksum":
+                distance_list = [indv.distance for indv in parents]
+                nvehicle_list = [indv.get_nvehicle() for indv in parents]
                 distance_list = list(set(distance_list))
                 nvehicle_list = list(set(nvehicle_list))
                 for indv in indv_list:
                     indv.fitness = distance_list.index(indv.distance)+1 \
-                            nvehicle_list.index(indv.get_nvehicle())+1
+                            + nvehicle_list.index(indv.get_nvehicle())+1
             # Pick Up Best Solutions
             self.best_solutions = ut.pick_up_best_indvs(selection, parents)
             # Print Log
@@ -91,7 +91,6 @@ class VRPTW(object):
 
         self.is_optimized = True
         Timer.end("optimize")
-        return generations, nvehicle_avgs, distance_avgs, nvehicle_bests, distance_bests
 
     def get_best_solutions(self):
         if not self.is_optimized:
@@ -123,7 +122,7 @@ class VRPTW(object):
         self.nvehicle_bests.append(nvehicle_best)
         self.distance_bests.append(distance_best)
 
-    def _print_log(generation):
+    def _print_log(self, generation):
         print("### Best Solutions of Generation", generation, "###")
         for best_indv in self.best_solutions:
             vehicles = best_indv.get_nvehicle()

@@ -1,7 +1,20 @@
+import sys
 from gatools import functions as fnc
 
 def flatten(chromosome):
     return [node for route in chromosome for node in route]
+
+
+def get_paths_from_inputfilename(filename, rslt_dir="results"):
+    path_list = filename.split('/')
+
+    path = '/'.join(path_list[:-1])
+
+    path_list[0] = rslt_dir
+    path_list[-1] = path_list[-1].split('.')[0]
+    output_path = '/'.join(path_list)
+
+    return path, output_path
 
 
 def remove_duplication(indv_list):
@@ -31,10 +44,10 @@ def calc_distance_average(indv_list):
 
 def pick_up_best_indvs(switch, indv_list):
     best_solutions = []
-    if selection == "pareto":
+    if switch == "pareto":
         (best_solutions, others) = fnc.make_current_ranking_list(indv_list)
         others = []
-    elif switch in ["wsum", "ranksum"]
+    elif switch in ["wsum", "ranksum"]:
         best_indv = indv_list[0]
         for indv in indv_list:
             if indv.fitness < best_indv.fitness:

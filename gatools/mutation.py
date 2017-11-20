@@ -55,10 +55,10 @@ def _inv(nodes, chromosome):
     reverse_part.reverse()
     new_flat_route = flat_route[0:cut1] + reverse_part \
             + flat_route[cut2:size]
-    new_chromosome = fnc.shape_flat_to_vehicles(new_flat_route)
+    new_chromosome = fnc.shape_flat_to_vehicles(nodes, new_flat_route)
     return new_chromosome
 
-def _inversion(nodes, offsprings, rate, irate):
+def _inversion(nodes, offsprings, rate):
   new_offsprings = []
   for indv in offsprings:
     tmp = copy.deepcopy(indv)

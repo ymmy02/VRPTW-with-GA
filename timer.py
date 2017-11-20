@@ -43,7 +43,7 @@ class Timer(object):
             for subkey, subttl in Timer.subttl[key].items():
                 second = subttl - tmp
                 parcentage = second / ttl
-                f.write(subkey + " : " + "{:.5f}".format(second) + " [sec]" + "{:.2%}".format(parcentage)+ " [%]\n")
+                f.write(subkey + " : " + "{:.5f}".format(second) + " [sec] " + "{:.2%}".format(parcentage) + "\n")
                 tmp = subttl
             f.write("*" * 50 + "\n")
 
