@@ -4,6 +4,7 @@ import ut
 import random
 import copy
 
+from timer import Timer
 import gatools.functions as fnc
 
 ###########
@@ -73,6 +74,7 @@ def _inversion(nodes, offsprings, rate, irate):
 # Public #
 ##########
 def done(switch, nodes, offsprings, rate=0.3, irate=0.02):
+    Timer.start("mutation")
     if switch == "insersion":
         new_offsprings =  _insertion(nodes, offsprings, rate, irate)
     elif switch == "inversion":
@@ -81,5 +83,6 @@ def done(switch, nodes, offsprings, rate=0.3, irate=0.02):
         print("!!!!! [mutation/done] switch doesn't has such paramerter:", \
                 switch, "!!!!!")
         sys.exit()
+    Timer.end("mutation")
 
     return new_offsprings

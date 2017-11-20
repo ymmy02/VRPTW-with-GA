@@ -1,6 +1,9 @@
-import sys
+import sys,os
+sys.path.append(os.pardir)
+
 import random
 
+from timer import Timer
 from gatools.functions import make_pareto_ranking_list
 
 ###########
@@ -52,6 +55,7 @@ def _pareto_ranking(parents):
 # Public #
 ##########
 def done(switch, parents, tournament_size=3):
+    Timer.start("selection")
     if switch == "pareto":
         offsprings =  _pareto_ranking(parents)
     elif switch == "wsum":
@@ -62,5 +66,6 @@ def done(switch, parents, tournament_size=3):
         print("!!!!! [selection/done] switch doesn't has such paramerter:", \
                 switch, "!!!!!")
         sys.exit()
+    Timer.end("selection")
 
     return offsprings

@@ -5,6 +5,7 @@ import random
 import copy
 import time
 
+from timer import Timer
 import gatools.functions as fnc
 
 ###########
@@ -149,6 +150,7 @@ def _uniform_order_crossover(nodes, offsprings, rate):
 # Public #
 ##########
 def done(switch, nodes, offsprings, rate=0.6):
+    Timer.start("crossover")
     if switch == "uox":
         new_offsprings =  _uniform_order_crossover(nodes, offsprings, rate)
     elif switch == "rc":
@@ -159,5 +161,6 @@ def done(switch, nodes, offsprings, rate=0.6):
         print("!!!!! [crossover/done] switch doesn't has such paramerter:", \
                 switch, "!!!!!")
         sys.exit()
+    Timer.end("crossover")
 
     return new_offsprings

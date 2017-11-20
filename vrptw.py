@@ -1,6 +1,7 @@
 import sys, os
 
 import ut
+from timer import Timer
 from logger import print_log
 from gatools import functions as fnc
 from gatools import selection, crossover, mutation
@@ -21,6 +22,7 @@ class VRPTW(object):
            w_nvehicle=100, w_distance=0.01, tournament_size=3, \
            cx_rate=0.6, mu_rate=0.2, mu_irate=0.03):
 
+        Timer.start("optimize")
         self.generations = []
         self.nvehicle_avgs = []
         self.distance_avgs = []
@@ -46,6 +48,7 @@ class VRPTW(object):
                 indv.fitness = distance_list.index(indv.distance)+1 \
                         nvehicle_list.index(indv.get_nvehicle())+1
         self._record(selection, 0, parents)
+        Timer.check("optimize", "initalize")
 
 
         #############
@@ -84,7 +87,10 @@ class VRPTW(object):
             self._record(selection, loopcount, parents)
             self._print_log(loopcount)
 
+        Timer.check("optimize", "main loop")
+
         self.is_optimized = True
+        Timer.end("optimize")
         return generations, nvehicle_avgs, distance_avgs, nvehicle_bests, distance_bests
 
     def get_best_solutions(self):
