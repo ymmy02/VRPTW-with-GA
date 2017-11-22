@@ -36,6 +36,7 @@ http://w.cba.neu.edu/~msolomon/problems.htm
 ### Crossover
 
 - Uniform Order Crossover (UOX)
+- Partially Mapped Crossover (PMX)
 - Route Crossover (RC)
 - Best Cost Route Crossover (BCRC)
 
