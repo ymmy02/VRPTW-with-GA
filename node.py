@@ -93,7 +93,6 @@ class NodeList(list):
             if node.get_id() in route:
                 amount += node.get_dem()
         if amount > self._capacity:
-            print("capacity over")
             return False
 
         # Time Window check
