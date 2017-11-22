@@ -33,7 +33,7 @@ def plot_graphs(generations, nvehicle_avgs, distance_avgs, \
             "Genration", "Best Number of Vehicle", \
             "Vehicles", "")
     # Best Distance by Generations
-    title = "Avarage of Distance by Generations"
+    title = "Best Distance by Generations"
     _plot(path+"distance_best.png", title, generations, distance_bests, [], \
             "Genration", "Avarage of Distance", \
             "Distance", "")
