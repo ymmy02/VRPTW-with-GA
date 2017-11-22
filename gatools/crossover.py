@@ -15,19 +15,20 @@ def _insert_node(nodes, new_chromosome, L):
     for insert_node in L:
         feasible_list = []
         for (i, route) in enumerate(new_chromosome):
-            if nodes.is_feasible(route+[insert_node]):
-                feasible_list.append(i)
+            for j in range(len(route)+1):
+                tmp = route[0:j] + [insert_node] + route[j:]
+                if nodes.is_feasible(tmp):
+                    feasible_list.append((i, j))
         if len(feasible_list) == 0:   # Is Empty
             new_chromosome.append([insert_node])
         else:
-            i = random.choice(feasible_list)
-            j = random.choice(range(len(new_chromosome[i])+1))
+            (i, j) = random.choice(feasible_list)
             new_chromosome[i].insert(j, insert_node)
 
 #===<Route Crossover>===#
 def _route_crossover(nodes, offsprings, rate=0.5):
     new_offsprings = []
-    half = len(offsprings)/2
+    half = int(len(offsprings)/2)
 
     for (indv1, indv2) in zip (offsprings[0:half], offsprings[half:]):
         tmp1 = copy.deepcopy(indv1)
