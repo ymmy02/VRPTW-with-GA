@@ -45,7 +45,7 @@ class VRPTW(object):
             nvehicle_list = [indv.get_nvehicle() for indv in parents]
             distance_list = list(set(distance_list))
             nvehicle_list = list(set(nvehicle_list))
-            for indv in indv_list:
+            for indv in parents:
                 indv.fitness = distance_list.index(indv.distance)+1 \
                         + nvehicle_list.index(indv.get_nvehicle())+1
         self._record(selection, 0, parents)
@@ -77,7 +77,7 @@ class VRPTW(object):
                 nvehicle_list = [indv.get_nvehicle() for indv in parents]
                 distance_list = list(set(distance_list))
                 nvehicle_list = list(set(nvehicle_list))
-                for indv in indv_list:
+                for indv in parents:
                     indv.fitness = distance_list.index(indv.distance)+1 \
                             + nvehicle_list.index(indv.get_nvehicle())+1
             # Pick Up Best Solutions
