@@ -147,6 +147,60 @@ def _uniform_order_crossover(nodes, offsprings, rate):
 #===</Uniform Order Crossover(UOX)>===#
 
 
+#===<Partially Mapped Crossover(PMX)>===#
+def _get_no_conflict_list(origin, counterpart):
+    for i in range(len(origin)):
+        if origin[i] in counterpart:
+            origin[i] = 0
+    return origin
+
+def _pmx(nodes, ch1, ch2):
+    flattench1 = ut.flatten(ch1)
+    flattench2 = ut.flatten(ch2)
+    size = len(flattench1)
+    point1 = random.randint(0, size-1)
+    point2 = random.randint(point1+1, size)
+
+    tmp = flattench2[point1:point2]
+    pre = _get_no_conflict_list(flattench1[0:point1], tmp)
+    suf = _get_no_conflict_list(flattench1[point2:], tmp)
+    tmpch1 = pre + tmp + suf
+    tmp = flattench1[point1:point2]
+    pre = _get_no_conflict_list(flattench2[0:point1], tmp)
+    suf = _get_no_conflict_list(flattench2[point2:], tmp)
+    tmpch2 = pre + tmp + suf
+
+    for node in flattench2:
+        if node not in tmpch1:
+            insert_index = tmpch1.index(0)
+            tmpch1[insert_index] = node
+    for node in flattench1:
+        if node not in tmpch2:
+            insert_index = tmpch2.index(0)
+            tmpch2[insert_index] = node
+
+    tmpch1 = fnc.shape_flat_to_vehicles(nodes, tmpch1)
+    tmpch2 = fnc.shape_flat_to_vehicles(nodes, tmpch2)
+    return tmpch1, tmpch2
+
+def _partially_mapped_crossover(nodes, offsprings, rate):
+    new_offsprings = []
+    half = int(len(offsprings)/2)
+
+    for (indv1, indv2) in zip (offsprings[0:half], offsprings[half:]):
+        tmp1 = copy.deepcopy(indv1)
+        tmp2 = copy.deepcopy(indv2)
+        if random.random() < rate:
+            (tmp1.chromosome, tmp2.chromosome) =        \
+                  _pmx(nodes, indv1.chromosome, indv2.chromosome)
+        tmp1.chromosome = fnc.remove_null_route(tmp1.chromosome)   # Remove the route which has no nodes
+        tmp2.chromosome = fnc.remove_null_route(tmp2.chromosome)
+        new_offsprings.append(tmp1)
+        new_offsprings.append(tmp2)
+    return new_offsprings
+#===</Partially Mapped Crossover(PMX)>===#
+
+
 ##########
 # Public #
 ##########
@@ -154,6 +208,8 @@ def done(switch, nodes, offsprings, rate=0.6):
     Timer.start("crossover")
     if switch == "uox":
         new_offsprings =  _uniform_order_crossover(nodes, offsprings, rate)
+    elif switch == "pmx":
+        new_offsprings =  _partially_mapped_crossover(nodes, offsprings, rate)
     elif switch == "rc":
         new_offsprings =  _route_crossover(nodes, offsprings, rate)
     elif switch == "bcrc":
