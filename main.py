@@ -20,7 +20,10 @@ def main(filename):
     Timer.check('main', 'load data')
 
     vrptw = VRPTW()
-    vrptw.gaoptimize(nodes, population=100, generation_span=100)
+    vrptw.gaoptimize(self, nodes, population=100, generation_span=100, \
+           selection="pareto", crossover="bcrc", mutation="inversion", \
+           w_nvehicle=100, w_distance=0.01, tournament_size=3, \
+           cx_rate=0.6, mu_rate=0.2, mu_irate=0.03)
     Timer.check('main', 'optimization')
 
     best_indv_list = vrptw.get_best_solutions()
