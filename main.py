@@ -54,21 +54,24 @@ if __name__ == "__main__":
 
     # Command Line Arguments
     args = sys.argv
-    if len(args) > 1:
-        filename = args[1]
-        output_path = args[2]
-        pop = int(args[3])
-        gspan = int(args[4])
-        selc = args[5]
-        cx = args[6]
-        mu = args[7]
-        w_nv = float(args[8])
-        w_di = float(args[9])
-        tournament = int(args[10])
-        cx_rate = float(args[11])
-        mu_rate = float(args[12])
-        mu_irate = float(args[13])
-        suffix=1
+    filename = args[1]
+    output_path = args[2]
+    pop = int(args[3])
+    gspan = int(args[4])
+    selc = args[5]
+    cx = args[6]
+    mu = args[7]
+    w_nv = float(args[8])
+    w_di = float(args[9])
+    tournament = int(args[10])
+    cx_rate = float(args[11])
+    mu_rate = float(args[12])
+    mu_irate = float(args[13])
+    if len(args) > 14:
+        suffix = int(args[14])
+    else:
+        suffix = None
+
     main(filename, output_path=output_path, suffix=suffix, population=pop, \
             generation_span=gspan, selection=selc, crossover=cx, mutation=mu, \
             w_nvehicle=w_nv, w_distance=w_di, tournament_size=tournament, \
