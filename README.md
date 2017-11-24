@@ -46,14 +46,7 @@ http://w.cba.neu.edu/~msolomon/problems.htm
 
 ## Execution
 
-Default
+Edit the parameters of run.sh and excute
 ```
-python3 main.py
-```
-Use dataset/R1/R101.txt
-
-Give Dataset  
-ex)
-```
-python3 main.py dataset/C2/C203.txt
+./run.sh
 ```
