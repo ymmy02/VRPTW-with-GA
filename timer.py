@@ -1,4 +1,5 @@
 import time
+import ut
 
 class Timer(object):
 
@@ -26,11 +27,12 @@ class Timer(object):
         Timer.subttl[key][subkey] += time.time() - Timer.stttime[key]
 
     @staticmethod
-    def write(path=""):
+    def write(path="", suffix=None):
         if len(path) != 0:
             path = path + "/"
+        filename = ut.add_suffix("time", suffix) + ".txt"
 
-        f = open(path + "time.txt", 'w')
+        f = open(path + filename, 'w')
         f.write("*" * 50 + "\n")
         f.write(" Calculation Time\n")
         f.write("*" * 50 + "\n")

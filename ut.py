@@ -5,16 +5,10 @@ def flatten(chromosome):
     return [node for route in chromosome for node in route]
 
 
-def get_paths_from_inputfilename(filename, rslt_dir="results"):
+def get_path_from_inputfilename(filename, rslt_dir="results"):
     path_list = filename.split('/')
-
     path = '/'.join(path_list[:-1])
-
-    path_list[0] = rslt_dir
-    path_list[-1] = path_list[-1].split('.')[0]
-    output_path = '/'.join(path_list)
-
-    return path, output_path
+    return path
 
 
 def remove_duplication(indv_list):
@@ -59,3 +53,39 @@ def pick_up_best_indvs(switch, indv_list):
         sys.exit()
 
     return remove_duplication(best_solutions)
+
+def add_suffix(filename, suffix=None):
+    if suffix is not None:
+        suffix = "_" + str(suffix).zfill(3)
+        new_filename = filename + suffix
+    else:
+        new_filename = filename 
+    return new_filename
+
+def write_results(generations, nvehicle_avgs, distance_avgs, \
+        nvehicle_bests, distance_bests, path="", suffix=None):
+    if len(path) != 0:
+        path = path + "/"
+    filename = add_suffix("output", suffix) + ".dat"
+
+    f = open(path + filename, 'w')
+    for i in range(len(generations)):
+        ge = str(generations[i]) + " "
+        na = str(nvehicle_avgs[i]) + " "
+        da = str(distance_bests[i]) + " "
+        nb = str(nvehicle_bests[i]) + " "
+        db = str(distance_bests[i]) + "\n"
+        f.write(ge + na + da + nb + db)
+    f.close()
+
+def write_best_solutions(best_indv_list, path="", suffix=None):
+    if len(path) != 0:
+        path = path + "/"
+    filename = add_suffix("best_solutions", suffix) + ".dat"
+
+    f = open(path + filename, 'w')
+    for indv in best_indv_list:
+        nvihecle = str(indv.get_nvehicle())
+        distance = str(indv.distance)
+        f.write(nvihecle + " " + distance + "\n")
+    f.close()

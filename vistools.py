@@ -1,3 +1,4 @@
+import ut
 import networkx as nx
 import matplotlib.pyplot as plt
 
@@ -14,41 +15,50 @@ def _plot(filename, title, x, y1, y2, \
     plt.savefig(filename)
 
 def plot_graphs(generations, nvehicle_avgs, distance_avgs, \
-        nvehicle_bests, distance_bests, path=""):
+        nvehicle_bests, distance_bests, path="", suffix=None):
     if len(path) != 0:
         path = path + "/"
     # Avarage of Num of Vehicles by Generations
+    filename = ut.add_suffix("vehicles_avg", suffix) + ".png"
     title = "Avarage of Number of Vehicles by Generations"
-    _plot(path+"vehicles_avg.png", title, generations, nvehicle_avgs, [], \
+    _plot(path+filename, title, generations, nvehicle_avgs, [], \
             "Genration", "Avarage of Number of Vehicle", \
             "Vehicles", "")
     # Avarage of Distance by Generations
+    filename = ut.add_suffix("distance_avg", suffix) + ".png"
     title = "Avarage of Distance by Generations"
-    _plot(path+"distance_avg.png", title, generations, distance_avgs, [], \
+    _plot(path+filename, title, generations, distance_avgs, [], \
             "Genration", "Avarage of Distance", \
             "Distance", "")
     # Best Num of Vehicles by Generations
+    filename = ut.add_suffix("vehicles_best", suffix) + ".png"
     title = "Best Number of Vehicles by Generations"
-    _plot(path+"vehicles_best.png", title, generations, nvehicle_bests, [], \
+    _plot(path+filename, title, generations, nvehicle_bests, [], \
             "Genration", "Best Number of Vehicle", \
             "Vehicles", "")
     # Best Distance by Generations
+    filename = ut.add_suffix("distance_best", suffix) + ".png"
     title = "Best Distance by Generations"
-    _plot(path+"distance_best.png", title, generations, distance_bests, [], \
+    _plot(path+filename, title, generations, distance_bests, [], \
             "Genration", "Avarage of Distance", \
             "Distance", "")
     # Num of Vehicles (Avarage & Best) by Generations
+    filename = ut.add_suffix("vehicles_avg_best", suffix) + ".png"
     title = "Number of Vehicles by Generations"
-    _plot(path+"vehicles_avg_best.png", title, generations, nvehicle_avgs, \
+    _plot(path+filename, title, generations, nvehicle_avgs, \
             nvehicle_bests, "Genration", "Number of Vehicle", \
             "Avarage of Vehicles", "Best Vehicles")
     # Distance (Avarage & Best) by Generations
+    filename = ut.add_suffix("distance_avg_best", suffix) + ".png"
     title = "Distance by Generations"
-    _plot(path+"distance_avg_best.png", title, generations, distance_avgs, \
+    _plot(path+filename, title, generations, distance_avgs, \
             distance_bests, "Genration", "Avarage of Distance", \
             "Avarage of Distance", "Best Distance")
 
-def draw_routings(nodes, solutions, path=""):
+def draw_routings(nodes, solutions, path="", suffix=None):
+    if len(path) != 0:
+        path = path + "/"
+
     G = nx.Graph()
     depot = nodes.get_depot()
     colors = ['black', 'green', 'cyan', 'magenta', 'red', 'blue']
@@ -89,6 +99,5 @@ def draw_routings(nodes, solutions, path=""):
                                    edgelist=edges,
                                    edge_color=colors[i%(len(colors))])
         # Save Figure
-        if len(path) != 0:
-            path = path + "/"
-        plt.savefig(path + "routing" + str(index).zfill(3) + ".png")
+        filename = ut.add_suffix("routing" + str(index).zfill(3), suffix) + ".png"
+        plt.savefig(path + filename)
