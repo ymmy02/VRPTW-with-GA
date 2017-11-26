@@ -10,7 +10,7 @@ from vistools import plot_graphs, draw_routings
 def main(filename, output_path="", suffix=None, population=100, \
         generation_span=100, selection="pareto", crossover="bcrc", \
         mutation="inversion", w_nvehicle=100, w_distance=0.001, \
-        tournament_size=3, cx_rate=0.6, mu_rate=0.2, mu_irate=0.03):
+        elite_size=0, tournament_size=3, cx_rate=0.6, mu_rate=0.2, mu_irate=0.03):
 
     Timer.init()
     Timer.start('main')
@@ -25,8 +25,9 @@ def main(filename, output_path="", suffix=None, population=100, \
     vrptw = VRPTW()
     vrptw.gaoptimize(nodes, population=population, generation_span=generation_span, \
            selection=selection, crossover=crossover, mutation=mutation, \
-           w_nvehicle=w_distance, w_distance=w_distance, tournament_size=tournament_size, \
-           cx_rate=cx_rate, mu_rate=mu_rate, mu_irate=mu_irate)
+           w_nvehicle=w_distance, w_distance=w_distance, elite_size=elite_size, \
+           tournament_size=tournament_size, cx_rate=cx_rate, mu_rate=mu_rate, \
+           mu_irate=mu_irate)
     Timer.check('main', 'optimization')
 
     best_indv_list = vrptw.get_best_solutions()
@@ -63,16 +64,18 @@ if __name__ == "__main__":
     mu = args[7]
     w_nv = float(args[8])
     w_di = float(args[9])
-    tournament = int(args[10])
-    cx_rate = float(args[11])
-    mu_rate = float(args[12])
-    mu_irate = float(args[13])
-    if len(args) > 14:
-        suffix = int(args[14])
+    elite = int(args[10])
+    tournament = int(args[11])
+    cx_rate = float(args[12])
+    mu_rate = float(args[13])
+    mu_irate = float(args[14])
+    if len(args) > 15:
+        suffix = int(args[15])
     else:
         suffix = None
 
     main(filename, output_path=output_path, suffix=suffix, population=pop, \
             generation_span=gspan, selection=selc, crossover=cx, mutation=mu, \
-            w_nvehicle=w_nv, w_distance=w_di, tournament_size=tournament, \
-            cx_rate=cx_rate, mu_rate=mu_rate, mu_irate=mu_irate)
+            w_nvehicle=w_nv, w_distance=w_di, elite_size=elite, \
+            tournament_size=tournament, cx_rate=cx_rate, mu_rate=mu_rate, \
+            mu_irate=mu_irate)

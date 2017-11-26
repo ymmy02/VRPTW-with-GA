@@ -20,7 +20,7 @@ class VRPTW(object):
 
     def gaoptimize(self, nodes, population=100, generation_span=100, \
            selection="pareto", crossover="bcrc", mutation="inversion", \
-           w_nvehicle=100, w_distance=0.01, tournament_size=3, \
+           w_nvehicle=100, w_distance=0.01, elite_size=0, tournament_size=3, \
            cx_rate=0.6, mu_rate=0.2, mu_irate=0.03):
 
         Timer.start("optimize")
@@ -58,7 +58,7 @@ class VRPTW(object):
         loopcount = 0
         while loopcount < generation_span:
             # Selection
-            offsprings = slc.done(selection, parents)
+            offsprings = slc.done(selection, parents, tournament_size, elite_size)
             # Crossover
             offsprings = crs.done(crossover, nodes, offsprings, rate=cx_rate)
             # Mutation
