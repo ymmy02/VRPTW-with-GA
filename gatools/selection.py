@@ -62,7 +62,7 @@ def _pareto_ranking(parents, elite_size=0):
     # Elitism
     count = 0
     for rank in ranking_list:
-        if count < elite_size:
+        if count > elite_size:
             break
         for elite in rank:
             offsprings.append(elite)
