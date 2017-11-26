@@ -83,9 +83,18 @@ def write_best_solutions(best_indv_list, path="", suffix=None):
         path = path + "/"
     filename = add_suffix("best_solutions", suffix) + ".dat"
 
+    # Number of Vehicles, Total Distance
     f = open(path + filename, 'w')
     for indv in best_indv_list:
         nvihecle = str(indv.get_nvehicle())
         distance = str(indv.distance)
         f.write(nvihecle + " " + distance + "\n")
     f.close()
+
+    # Routings
+    for (i, indv) in enumerate(best_indv_list):
+        filename = add_suffix("routing" + str(i).zfill(3), suffix) + ".txt"
+        f = open(path + filename, 'w')
+        for route in indv.chromosome:
+            f.write(str(route) + "\n")
+        f.close()
