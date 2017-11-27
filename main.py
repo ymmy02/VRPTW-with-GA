@@ -74,8 +74,14 @@ if __name__ == "__main__":
     else:
         suffix = None
 
+    print("%%%%%%%%%%%%%%%%%%%%%")
+    print("%%% Program Start %%%")
+    print("%%%%%%%%%%%%%%%%%%%%%")
     main(filename, output_path=output_path, suffix=suffix, population=pop, \
             generation_span=gspan, selection=selc, crossover=cx, mutation=mu, \
             w_nvehicle=w_nv, w_distance=w_di, elite_size=elite, \
             tournament_size=tournament, cx_rate=cx_rate, mu_rate=mu_rate, \
             mu_irate=mu_irate)
+    print("%%%%%%%%%%%%%%%%%%%")
+    print("%%% Program End %%%")
+    print("%%%%%%%%%%%%%%%%%%%")

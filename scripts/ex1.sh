@@ -6,8 +6,8 @@ DATASETDIR=dataset
 #INDEX=1
 # input file is ${TYPE}0${INDEX}.txt ex) R101.txt
 RESULTDIR=results
-POPULATION=100
-GENERATION=5
+POPULATION=80
+GENERATION=80
 SELECTION=wsum       # pareto, wsum, ranksum
 #CROSSOVER=bcrc      # uox, pmx, rc, bcrc
 MUTATION=inversion  # inversion, insersion
@@ -35,7 +35,7 @@ do
     do
         for CROSSOVER in uox pmx bcrc
         do
-            for CXRATE in 0.5 0.6 0.7 0.8 0.9
+            for CXRATE in 0.6 0.7 0.8 0.9
             do
                 for MURATE in 0.1 0.2 0.3 0.4
                 do
