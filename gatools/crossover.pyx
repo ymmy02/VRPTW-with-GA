@@ -12,9 +12,14 @@ import gatools.functions as fnc
 # Private #
 ###########
 def _insert_node(nodes, new_chromosome, L):
-    for insert_node in L:
+    cdef int n, i, j
+    cdef int size, insert_node
+    size = len(new_chromosome)
+    for n in range(len(L)):
+        insert_node = L[n]
         feasible_list = []
-        for (i, route) in enumerate(new_chromosome):
+        for i in range(size):
+            route = new_chromosome[i]
             for j in range(len(route)+1):
                 tmp = route[0:j] + [insert_node] + route[j:]
                 if nodes.is_feasible(tmp):
