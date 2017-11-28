@@ -102,18 +102,14 @@ def remove_null_route(chromosome):
 
 def make_current_ranking_list(current_rank_candidates): 
     cdef i, j
-    cdef size
-    size = len(current_rank_candidates)
     dominated_list = []
     nondominated_list = []
 
-    for i in range(size):
-        candidate = current_rank_candidates[i]
+    for (i, candidate) in enumerate(current_rank_candidates):
         flag_dominated = False
         if candidate in dominated_list:
             continue
-        for j in range(i+1, size):
-            counterpart = current_rank_candidates[j]
+        for counterpart in current_rank_candidates[i+1:]:
             if counterpart in dominated_list:
                 continue
             does_left_dominate_right = \

@@ -1078,6 +1078,7 @@ int __pyx_module_is_main_gatools__functions = 0;
 
 /* Implementation of 'gatools.functions' */
 static PyObject *__pyx_builtin_range;
+static PyObject *__pyx_builtin_enumerate;
 static const char __pyx_k_i[] = "i";
 static const char __pyx_k_j[] = "j";
 static const char __pyx_k__12[] = "_";
@@ -1105,6 +1106,7 @@ static const char __pyx_k_candidate[] = "candidate";
 static const char __pyx_k_depot_pos[] = "depot_pos";
 static const char __pyx_k_distance1[] = "distance1";
 static const char __pyx_k_distance2[] = "distance2";
+static const char __pyx_k_enumerate[] = "enumerate";
 static const char __pyx_k_get_depot[] = "get_depot";
 static const char __pyx_k_indv_list[] = "indv_list";
 static const char __pyx_k_node1_pos[] = "node1_pos";
@@ -1175,6 +1177,7 @@ static PyObject *__pyx_n_s_does_left_dominate_right;
 static PyObject *__pyx_n_s_does_left_dominate_right_2;
 static PyObject *__pyx_n_s_dominated_list;
 static PyObject *__pyx_n_s_dot;
+static PyObject *__pyx_n_s_enumerate;
 static PyObject *__pyx_n_s_first_node_pos;
 static PyObject *__pyx_n_s_fitness;
 static PyObject *__pyx_n_s_flag_dominated;
@@ -4150,7 +4153,7 @@ static PyObject *__pyx_pf_7gatools_9functions_18remove_null_route(CYTHON_UNUSED 
  * 
  * def make_current_ranking_list(current_rank_candidates):             # <<<<<<<<<<<<<<
  *     cdef i, j
- *     cdef size
+ *     dominated_list = []
  */
 
 /* Python wrapper */
@@ -4169,8 +4172,6 @@ static PyObject *__pyx_pw_7gatools_9functions_21make_current_ranking_list(PyObje
 
 static PyObject *__pyx_pf_7gatools_9functions_20make_current_ranking_list(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_current_rank_candidates) {
   PyObject *__pyx_v_i = 0;
-  PyObject *__pyx_v_j = 0;
-  PyObject *__pyx_v_size = 0;
   PyObject *__pyx_v_dominated_list = NULL;
   PyObject *__pyx_v_nondominated_list = NULL;
   PyObject *__pyx_v_candidate = NULL;
@@ -4179,255 +4180,211 @@ static PyObject *__pyx_pf_7gatools_9functions_20make_current_ranking_list(CYTHON
   PyObject *__pyx_v_does_left_dominate_right = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  Py_ssize_t __pyx_t_1;
+  PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
+  Py_ssize_t __pyx_t_3;
   PyObject *(*__pyx_t_4)(PyObject *);
-  int __pyx_t_5;
+  PyObject *__pyx_t_5 = NULL;
   int __pyx_t_6;
-  PyObject *__pyx_t_7 = NULL;
-  Py_ssize_t __pyx_t_8;
-  PyObject *(*__pyx_t_9)(PyObject *);
-  PyObject *__pyx_t_10 = NULL;
+  int __pyx_t_7;
+  PyObject *__pyx_t_8 = NULL;
+  Py_ssize_t __pyx_t_9;
+  PyObject *(*__pyx_t_10)(PyObject *);
   PyObject *__pyx_t_11 = NULL;
-  int __pyx_t_12;
-  PyObject *__pyx_t_13 = NULL;
-  int __pyx_t_14;
+  PyObject *__pyx_t_12 = NULL;
+  int __pyx_t_13;
+  PyObject *__pyx_t_14 = NULL;
+  int __pyx_t_15;
   __Pyx_RefNannySetupContext("make_current_ranking_list", 0);
 
-  /* "gatools/functions.pyx":106
+  /* "gatools/functions.pyx":105
+ * def make_current_ranking_list(current_rank_candidates):
  *     cdef i, j
- *     cdef size
- *     size = len(current_rank_candidates)             # <<<<<<<<<<<<<<
- *     dominated_list = []
- *     nondominated_list = []
- */
-  __pyx_t_1 = PyObject_Length(__pyx_v_current_rank_candidates); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 106, __pyx_L1_error)
-  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 106, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_v_size = __pyx_t_2;
-  __pyx_t_2 = 0;
-
-  /* "gatools/functions.pyx":107
- *     cdef size
- *     size = len(current_rank_candidates)
  *     dominated_list = []             # <<<<<<<<<<<<<<
  *     nondominated_list = []
  * 
  */
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 107, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_v_dominated_list = ((PyObject*)__pyx_t_2);
-  __pyx_t_2 = 0;
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 105, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_dominated_list = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
 
-  /* "gatools/functions.pyx":108
- *     size = len(current_rank_candidates)
+  /* "gatools/functions.pyx":106
+ *     cdef i, j
  *     dominated_list = []
  *     nondominated_list = []             # <<<<<<<<<<<<<<
  * 
- *     #for (i, candidate) in enumerate(current_rank_candidates):
+ *     for (i, candidate) in enumerate(current_rank_candidates):
  */
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 108, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_v_nondominated_list = ((PyObject*)__pyx_t_2);
-  __pyx_t_2 = 0;
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 106, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_nondominated_list = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
 
-  /* "gatools/functions.pyx":111
+  /* "gatools/functions.pyx":108
+ *     nondominated_list = []
  * 
- *     #for (i, candidate) in enumerate(current_rank_candidates):
- *     for i in range(size):             # <<<<<<<<<<<<<<
- *         candidate = current_rank_candidates[i]
- *         flag_dominated = False
- */
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 111, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_v_size);
-  __Pyx_GIVEREF(__pyx_v_size);
-  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_size);
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 111, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (likely(PyList_CheckExact(__pyx_t_3)) || PyTuple_CheckExact(__pyx_t_3)) {
-    __pyx_t_2 = __pyx_t_3; __Pyx_INCREF(__pyx_t_2); __pyx_t_1 = 0;
-    __pyx_t_4 = NULL;
-  } else {
-    __pyx_t_1 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 111, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 111, __pyx_L1_error)
-  }
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  for (;;) {
-    if (likely(!__pyx_t_4)) {
-      if (likely(PyList_CheckExact(__pyx_t_2))) {
-        if (__pyx_t_1 >= PyList_GET_SIZE(__pyx_t_2)) break;
-        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_1); __Pyx_INCREF(__pyx_t_3); __pyx_t_1++; if (unlikely(0 < 0)) __PYX_ERR(0, 111, __pyx_L1_error)
-        #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_1); __pyx_t_1++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 111, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-        #endif
-      } else {
-        if (__pyx_t_1 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
-        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_1); __Pyx_INCREF(__pyx_t_3); __pyx_t_1++; if (unlikely(0 < 0)) __PYX_ERR(0, 111, __pyx_L1_error)
-        #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_1); __pyx_t_1++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 111, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-        #endif
-      }
-    } else {
-      __pyx_t_3 = __pyx_t_4(__pyx_t_2);
-      if (unlikely(!__pyx_t_3)) {
-        PyObject* exc_type = PyErr_Occurred();
-        if (exc_type) {
-          if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 111, __pyx_L1_error)
-        }
-        break;
-      }
-      __Pyx_GOTREF(__pyx_t_3);
-    }
-    __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_3);
-    __pyx_t_3 = 0;
-
-    /* "gatools/functions.pyx":112
- *     #for (i, candidate) in enumerate(current_rank_candidates):
- *     for i in range(size):
- *         candidate = current_rank_candidates[i]             # <<<<<<<<<<<<<<
+ *     for (i, candidate) in enumerate(current_rank_candidates):             # <<<<<<<<<<<<<<
  *         flag_dominated = False
  *         if candidate in dominated_list:
  */
-    __pyx_t_3 = PyObject_GetItem(__pyx_v_current_rank_candidates, __pyx_v_i); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 112, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_XDECREF_SET(__pyx_v_candidate, __pyx_t_3);
-    __pyx_t_3 = 0;
+  __Pyx_INCREF(__pyx_int_0);
+  __pyx_t_1 = __pyx_int_0;
+  if (likely(PyList_CheckExact(__pyx_v_current_rank_candidates)) || PyTuple_CheckExact(__pyx_v_current_rank_candidates)) {
+    __pyx_t_2 = __pyx_v_current_rank_candidates; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
+    __pyx_t_4 = NULL;
+  } else {
+    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_v_current_rank_candidates); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 108, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 108, __pyx_L1_error)
+  }
+  for (;;) {
+    if (likely(!__pyx_t_4)) {
+      if (likely(PyList_CheckExact(__pyx_t_2))) {
+        if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
+        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+        __pyx_t_5 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 108, __pyx_L1_error)
+        #else
+        __pyx_t_5 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 108, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        #endif
+      } else {
+        if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
+        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+        __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 108, __pyx_L1_error)
+        #else
+        __pyx_t_5 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 108, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        #endif
+      }
+    } else {
+      __pyx_t_5 = __pyx_t_4(__pyx_t_2);
+      if (unlikely(!__pyx_t_5)) {
+        PyObject* exc_type = PyErr_Occurred();
+        if (exc_type) {
+          if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+          else __PYX_ERR(0, 108, __pyx_L1_error)
+        }
+        break;
+      }
+      __Pyx_GOTREF(__pyx_t_5);
+    }
+    __Pyx_XDECREF_SET(__pyx_v_candidate, __pyx_t_5);
+    __pyx_t_5 = 0;
+    __Pyx_INCREF(__pyx_t_1);
+    __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_1);
+    __pyx_t_5 = __Pyx_PyInt_AddObjC(__pyx_t_1, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 108, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_1);
+    __pyx_t_1 = __pyx_t_5;
+    __pyx_t_5 = 0;
 
-    /* "gatools/functions.pyx":113
- *     for i in range(size):
- *         candidate = current_rank_candidates[i]
+    /* "gatools/functions.pyx":109
+ * 
+ *     for (i, candidate) in enumerate(current_rank_candidates):
  *         flag_dominated = False             # <<<<<<<<<<<<<<
  *         if candidate in dominated_list:
  *             continue
  */
     __pyx_v_flag_dominated = 0;
 
-    /* "gatools/functions.pyx":114
- *         candidate = current_rank_candidates[i]
+    /* "gatools/functions.pyx":110
+ *     for (i, candidate) in enumerate(current_rank_candidates):
  *         flag_dominated = False
  *         if candidate in dominated_list:             # <<<<<<<<<<<<<<
  *             continue
- *         #for counterpart in current_rank_candidates[i+1:]:
+ *         for counterpart in current_rank_candidates[i+1:]:
  */
-    __pyx_t_5 = (__Pyx_PySequence_ContainsTF(__pyx_v_candidate, __pyx_v_dominated_list, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 114, __pyx_L1_error)
-    __pyx_t_6 = (__pyx_t_5 != 0);
-    if (__pyx_t_6) {
+    __pyx_t_6 = (__Pyx_PySequence_ContainsTF(__pyx_v_candidate, __pyx_v_dominated_list, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 110, __pyx_L1_error)
+    __pyx_t_7 = (__pyx_t_6 != 0);
+    if (__pyx_t_7) {
 
-      /* "gatools/functions.pyx":115
+      /* "gatools/functions.pyx":111
  *         flag_dominated = False
  *         if candidate in dominated_list:
  *             continue             # <<<<<<<<<<<<<<
- *         #for counterpart in current_rank_candidates[i+1:]:
- *         for j in range(i+1, size):
+ *         for counterpart in current_rank_candidates[i+1:]:
+ *             if counterpart in dominated_list:
  */
       goto __pyx_L3_continue;
 
-      /* "gatools/functions.pyx":114
- *         candidate = current_rank_candidates[i]
+      /* "gatools/functions.pyx":110
+ *     for (i, candidate) in enumerate(current_rank_candidates):
  *         flag_dominated = False
  *         if candidate in dominated_list:             # <<<<<<<<<<<<<<
  *             continue
- *         #for counterpart in current_rank_candidates[i+1:]:
+ *         for counterpart in current_rank_candidates[i+1:]:
  */
     }
 
-    /* "gatools/functions.pyx":117
+    /* "gatools/functions.pyx":112
+ *         if candidate in dominated_list:
  *             continue
- *         #for counterpart in current_rank_candidates[i+1:]:
- *         for j in range(i+1, size):             # <<<<<<<<<<<<<<
- *             counterpart = current_rank_candidates[j]
- *             if counterpart in dominated_list:
- */
-    __pyx_t_3 = __Pyx_PyInt_AddObjC(__pyx_v_i, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 117, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 117, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __Pyx_GIVEREF(__pyx_t_3);
-    PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_3);
-    __Pyx_INCREF(__pyx_v_size);
-    __Pyx_GIVEREF(__pyx_v_size);
-    PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_v_size);
-    __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_t_7, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 117, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (likely(PyList_CheckExact(__pyx_t_3)) || PyTuple_CheckExact(__pyx_t_3)) {
-      __pyx_t_7 = __pyx_t_3; __Pyx_INCREF(__pyx_t_7); __pyx_t_8 = 0;
-      __pyx_t_9 = NULL;
-    } else {
-      __pyx_t_8 = -1; __pyx_t_7 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 117, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_9 = Py_TYPE(__pyx_t_7)->tp_iternext; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 117, __pyx_L1_error)
-    }
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    for (;;) {
-      if (likely(!__pyx_t_9)) {
-        if (likely(PyList_CheckExact(__pyx_t_7))) {
-          if (__pyx_t_8 >= PyList_GET_SIZE(__pyx_t_7)) break;
-          #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_3 = PyList_GET_ITEM(__pyx_t_7, __pyx_t_8); __Pyx_INCREF(__pyx_t_3); __pyx_t_8++; if (unlikely(0 < 0)) __PYX_ERR(0, 117, __pyx_L1_error)
-          #else
-          __pyx_t_3 = PySequence_ITEM(__pyx_t_7, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 117, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_3);
-          #endif
-        } else {
-          if (__pyx_t_8 >= PyTuple_GET_SIZE(__pyx_t_7)) break;
-          #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_7, __pyx_t_8); __Pyx_INCREF(__pyx_t_3); __pyx_t_8++; if (unlikely(0 < 0)) __PYX_ERR(0, 117, __pyx_L1_error)
-          #else
-          __pyx_t_3 = PySequence_ITEM(__pyx_t_7, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 117, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_3);
-          #endif
-        }
-      } else {
-        __pyx_t_3 = __pyx_t_9(__pyx_t_7);
-        if (unlikely(!__pyx_t_3)) {
-          PyObject* exc_type = PyErr_Occurred();
-          if (exc_type) {
-            if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 117, __pyx_L1_error)
-          }
-          break;
-        }
-        __Pyx_GOTREF(__pyx_t_3);
-      }
-      __Pyx_XDECREF_SET(__pyx_v_j, __pyx_t_3);
-      __pyx_t_3 = 0;
-
-      /* "gatools/functions.pyx":118
- *         #for counterpart in current_rank_candidates[i+1:]:
- *         for j in range(i+1, size):
- *             counterpart = current_rank_candidates[j]             # <<<<<<<<<<<<<<
+ *         for counterpart in current_rank_candidates[i+1:]:             # <<<<<<<<<<<<<<
  *             if counterpart in dominated_list:
  *                 continue
  */
-      __pyx_t_3 = PyObject_GetItem(__pyx_v_current_rank_candidates, __pyx_v_j); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 118, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_XDECREF_SET(__pyx_v_counterpart, __pyx_t_3);
-      __pyx_t_3 = 0;
+    __pyx_t_5 = __Pyx_PyInt_AddObjC(__pyx_v_i, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 112, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_8 = __Pyx_PyObject_GetSlice(__pyx_v_current_rank_candidates, 0, 0, &__pyx_t_5, NULL, NULL, 0, 0, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 112, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_8);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    if (likely(PyList_CheckExact(__pyx_t_8)) || PyTuple_CheckExact(__pyx_t_8)) {
+      __pyx_t_5 = __pyx_t_8; __Pyx_INCREF(__pyx_t_5); __pyx_t_9 = 0;
+      __pyx_t_10 = NULL;
+    } else {
+      __pyx_t_9 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 112, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_10 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 112, __pyx_L1_error)
+    }
+    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+    for (;;) {
+      if (likely(!__pyx_t_10)) {
+        if (likely(PyList_CheckExact(__pyx_t_5))) {
+          if (__pyx_t_9 >= PyList_GET_SIZE(__pyx_t_5)) break;
+          #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+          __pyx_t_8 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_9); __Pyx_INCREF(__pyx_t_8); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 112, __pyx_L1_error)
+          #else
+          __pyx_t_8 = PySequence_ITEM(__pyx_t_5, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 112, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_8);
+          #endif
+        } else {
+          if (__pyx_t_9 >= PyTuple_GET_SIZE(__pyx_t_5)) break;
+          #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+          __pyx_t_8 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_9); __Pyx_INCREF(__pyx_t_8); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 112, __pyx_L1_error)
+          #else
+          __pyx_t_8 = PySequence_ITEM(__pyx_t_5, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 112, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_8);
+          #endif
+        }
+      } else {
+        __pyx_t_8 = __pyx_t_10(__pyx_t_5);
+        if (unlikely(!__pyx_t_8)) {
+          PyObject* exc_type = PyErr_Occurred();
+          if (exc_type) {
+            if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+            else __PYX_ERR(0, 112, __pyx_L1_error)
+          }
+          break;
+        }
+        __Pyx_GOTREF(__pyx_t_8);
+      }
+      __Pyx_XDECREF_SET(__pyx_v_counterpart, __pyx_t_8);
+      __pyx_t_8 = 0;
 
-      /* "gatools/functions.pyx":119
- *         for j in range(i+1, size):
- *             counterpart = current_rank_candidates[j]
+      /* "gatools/functions.pyx":113
+ *             continue
+ *         for counterpart in current_rank_candidates[i+1:]:
  *             if counterpart in dominated_list:             # <<<<<<<<<<<<<<
  *                 continue
  *             does_left_dominate_right = \
  */
-      __pyx_t_6 = (__Pyx_PySequence_ContainsTF(__pyx_v_counterpart, __pyx_v_dominated_list, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 119, __pyx_L1_error)
-      __pyx_t_5 = (__pyx_t_6 != 0);
-      if (__pyx_t_5) {
+      __pyx_t_7 = (__Pyx_PySequence_ContainsTF(__pyx_v_counterpart, __pyx_v_dominated_list, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 113, __pyx_L1_error)
+      __pyx_t_6 = (__pyx_t_7 != 0);
+      if (__pyx_t_6) {
 
-        /* "gatools/functions.pyx":120
- *             counterpart = current_rank_candidates[j]
+        /* "gatools/functions.pyx":114
+ *         for counterpart in current_rank_candidates[i+1:]:
  *             if counterpart in dominated_list:
  *                 continue             # <<<<<<<<<<<<<<
  *             does_left_dominate_right = \
@@ -4435,94 +4392,94 @@ static PyObject *__pyx_pf_7gatools_9functions_20make_current_ranking_list(CYTHON
  */
         goto __pyx_L6_continue;
 
-        /* "gatools/functions.pyx":119
- *         for j in range(i+1, size):
- *             counterpart = current_rank_candidates[j]
+        /* "gatools/functions.pyx":113
+ *             continue
+ *         for counterpart in current_rank_candidates[i+1:]:
  *             if counterpart in dominated_list:             # <<<<<<<<<<<<<<
  *                 continue
  *             does_left_dominate_right = \
  */
       }
 
-      /* "gatools/functions.pyx":122
+      /* "gatools/functions.pyx":116
  *                 continue
  *             does_left_dominate_right = \
  *                     _does_left_dominate_right(candidate, counterpart)             # <<<<<<<<<<<<<<
  *             if does_left_dominate_right > 0:
  *                 dominated_list.append(counterpart)
  */
-      __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_does_left_dominate_right); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 122, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __pyx_t_11 = NULL;
-      __pyx_t_12 = 0;
-      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_10))) {
-        __pyx_t_11 = PyMethod_GET_SELF(__pyx_t_10);
-        if (likely(__pyx_t_11)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
-          __Pyx_INCREF(__pyx_t_11);
+      __pyx_t_11 = __Pyx_GetModuleGlobalName(__pyx_n_s_does_left_dominate_right); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 116, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_11);
+      __pyx_t_12 = NULL;
+      __pyx_t_13 = 0;
+      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_11))) {
+        __pyx_t_12 = PyMethod_GET_SELF(__pyx_t_11);
+        if (likely(__pyx_t_12)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_11);
+          __Pyx_INCREF(__pyx_t_12);
           __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_10, function);
-          __pyx_t_12 = 1;
+          __Pyx_DECREF_SET(__pyx_t_11, function);
+          __pyx_t_13 = 1;
         }
       }
       #if CYTHON_FAST_PYCALL
-      if (PyFunction_Check(__pyx_t_10)) {
-        PyObject *__pyx_temp[3] = {__pyx_t_11, __pyx_v_candidate, __pyx_v_counterpart};
-        __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_10, __pyx_temp+1-__pyx_t_12, 2+__pyx_t_12); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 122, __pyx_L1_error)
-        __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
-        __Pyx_GOTREF(__pyx_t_3);
+      if (PyFunction_Check(__pyx_t_11)) {
+        PyObject *__pyx_temp[3] = {__pyx_t_12, __pyx_v_candidate, __pyx_v_counterpart};
+        __pyx_t_8 = __Pyx_PyFunction_FastCall(__pyx_t_11, __pyx_temp+1-__pyx_t_13, 2+__pyx_t_13); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 116, __pyx_L1_error)
+        __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
+        __Pyx_GOTREF(__pyx_t_8);
       } else
       #endif
       #if CYTHON_FAST_PYCCALL
-      if (__Pyx_PyFastCFunction_Check(__pyx_t_10)) {
-        PyObject *__pyx_temp[3] = {__pyx_t_11, __pyx_v_candidate, __pyx_v_counterpart};
-        __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_10, __pyx_temp+1-__pyx_t_12, 2+__pyx_t_12); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 122, __pyx_L1_error)
-        __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
-        __Pyx_GOTREF(__pyx_t_3);
+      if (__Pyx_PyFastCFunction_Check(__pyx_t_11)) {
+        PyObject *__pyx_temp[3] = {__pyx_t_12, __pyx_v_candidate, __pyx_v_counterpart};
+        __pyx_t_8 = __Pyx_PyCFunction_FastCall(__pyx_t_11, __pyx_temp+1-__pyx_t_13, 2+__pyx_t_13); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 116, __pyx_L1_error)
+        __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
+        __Pyx_GOTREF(__pyx_t_8);
       } else
       #endif
       {
-        __pyx_t_13 = PyTuple_New(2+__pyx_t_12); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 122, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_13);
-        if (__pyx_t_11) {
-          __Pyx_GIVEREF(__pyx_t_11); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_11); __pyx_t_11 = NULL;
+        __pyx_t_14 = PyTuple_New(2+__pyx_t_13); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 116, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_14);
+        if (__pyx_t_12) {
+          __Pyx_GIVEREF(__pyx_t_12); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_12); __pyx_t_12 = NULL;
         }
         __Pyx_INCREF(__pyx_v_candidate);
         __Pyx_GIVEREF(__pyx_v_candidate);
-        PyTuple_SET_ITEM(__pyx_t_13, 0+__pyx_t_12, __pyx_v_candidate);
+        PyTuple_SET_ITEM(__pyx_t_14, 0+__pyx_t_13, __pyx_v_candidate);
         __Pyx_INCREF(__pyx_v_counterpart);
         __Pyx_GIVEREF(__pyx_v_counterpart);
-        PyTuple_SET_ITEM(__pyx_t_13, 1+__pyx_t_12, __pyx_v_counterpart);
-        __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_13, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 122, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-        __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+        PyTuple_SET_ITEM(__pyx_t_14, 1+__pyx_t_13, __pyx_v_counterpart);
+        __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_11, __pyx_t_14, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 116, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_8);
+        __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
       }
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __Pyx_XDECREF_SET(__pyx_v_does_left_dominate_right, __pyx_t_3);
-      __pyx_t_3 = 0;
+      __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+      __Pyx_XDECREF_SET(__pyx_v_does_left_dominate_right, __pyx_t_8);
+      __pyx_t_8 = 0;
 
-      /* "gatools/functions.pyx":123
+      /* "gatools/functions.pyx":117
  *             does_left_dominate_right = \
  *                     _does_left_dominate_right(candidate, counterpart)
  *             if does_left_dominate_right > 0:             # <<<<<<<<<<<<<<
  *                 dominated_list.append(counterpart)
  *             elif does_left_dominate_right < 0:
  */
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_does_left_dominate_right, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 123, __pyx_L1_error)
-      __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 123, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      if (__pyx_t_5) {
+      __pyx_t_8 = PyObject_RichCompare(__pyx_v_does_left_dominate_right, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 117, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 117, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+      if (__pyx_t_6) {
 
-        /* "gatools/functions.pyx":124
+        /* "gatools/functions.pyx":118
  *                     _does_left_dominate_right(candidate, counterpart)
  *             if does_left_dominate_right > 0:
  *                 dominated_list.append(counterpart)             # <<<<<<<<<<<<<<
  *             elif does_left_dominate_right < 0:
  *                 flag_dominated = True
  */
-        __pyx_t_14 = __Pyx_PyList_Append(__pyx_v_dominated_list, __pyx_v_counterpart); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 124, __pyx_L1_error)
+        __pyx_t_15 = __Pyx_PyList_Append(__pyx_v_dominated_list, __pyx_v_counterpart); if (unlikely(__pyx_t_15 == ((int)-1))) __PYX_ERR(0, 118, __pyx_L1_error)
 
-        /* "gatools/functions.pyx":123
+        /* "gatools/functions.pyx":117
  *             does_left_dominate_right = \
  *                     _does_left_dominate_right(candidate, counterpart)
  *             if does_left_dominate_right > 0:             # <<<<<<<<<<<<<<
@@ -4532,19 +4489,19 @@ static PyObject *__pyx_pf_7gatools_9functions_20make_current_ranking_list(CYTHON
         goto __pyx_L9;
       }
 
-      /* "gatools/functions.pyx":125
+      /* "gatools/functions.pyx":119
  *             if does_left_dominate_right > 0:
  *                 dominated_list.append(counterpart)
  *             elif does_left_dominate_right < 0:             # <<<<<<<<<<<<<<
  *                 flag_dominated = True
  *                 dominated_list.append(candidate)
  */
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_does_left_dominate_right, __pyx_int_0, Py_LT); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 125, __pyx_L1_error)
-      __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 125, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      if (__pyx_t_5) {
+      __pyx_t_8 = PyObject_RichCompare(__pyx_v_does_left_dominate_right, __pyx_int_0, Py_LT); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 119, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 119, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+      if (__pyx_t_6) {
 
-        /* "gatools/functions.pyx":126
+        /* "gatools/functions.pyx":120
  *                 dominated_list.append(counterpart)
  *             elif does_left_dominate_right < 0:
  *                 flag_dominated = True             # <<<<<<<<<<<<<<
@@ -4553,16 +4510,16 @@ static PyObject *__pyx_pf_7gatools_9functions_20make_current_ranking_list(CYTHON
  */
         __pyx_v_flag_dominated = 1;
 
-        /* "gatools/functions.pyx":127
+        /* "gatools/functions.pyx":121
  *             elif does_left_dominate_right < 0:
  *                 flag_dominated = True
  *                 dominated_list.append(candidate)             # <<<<<<<<<<<<<<
  *                 break
  *         if not flag_dominated:
  */
-        __pyx_t_14 = __Pyx_PyList_Append(__pyx_v_dominated_list, __pyx_v_candidate); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 127, __pyx_L1_error)
+        __pyx_t_15 = __Pyx_PyList_Append(__pyx_v_dominated_list, __pyx_v_candidate); if (unlikely(__pyx_t_15 == ((int)-1))) __PYX_ERR(0, 121, __pyx_L1_error)
 
-        /* "gatools/functions.pyx":128
+        /* "gatools/functions.pyx":122
  *                 flag_dominated = True
  *                 dominated_list.append(candidate)
  *                 break             # <<<<<<<<<<<<<<
@@ -4571,7 +4528,7 @@ static PyObject *__pyx_pf_7gatools_9functions_20make_current_ranking_list(CYTHON
  */
         goto __pyx_L7_break;
 
-        /* "gatools/functions.pyx":125
+        /* "gatools/functions.pyx":119
  *             if does_left_dominate_right > 0:
  *                 dominated_list.append(counterpart)
  *             elif does_left_dominate_right < 0:             # <<<<<<<<<<<<<<
@@ -4581,38 +4538,38 @@ static PyObject *__pyx_pf_7gatools_9functions_20make_current_ranking_list(CYTHON
       }
       __pyx_L9:;
 
-      /* "gatools/functions.pyx":117
+      /* "gatools/functions.pyx":112
+ *         if candidate in dominated_list:
  *             continue
- *         #for counterpart in current_rank_candidates[i+1:]:
- *         for j in range(i+1, size):             # <<<<<<<<<<<<<<
- *             counterpart = current_rank_candidates[j]
+ *         for counterpart in current_rank_candidates[i+1:]:             # <<<<<<<<<<<<<<
  *             if counterpart in dominated_list:
+ *                 continue
  */
       __pyx_L6_continue:;
     }
     __pyx_L7_break:;
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "gatools/functions.pyx":129
+    /* "gatools/functions.pyx":123
  *                 dominated_list.append(candidate)
  *                 break
  *         if not flag_dominated:             # <<<<<<<<<<<<<<
  *             nondominated_list.append(candidate)
  * 
  */
-    __pyx_t_5 = ((!(__pyx_v_flag_dominated != 0)) != 0);
-    if (__pyx_t_5) {
+    __pyx_t_6 = ((!(__pyx_v_flag_dominated != 0)) != 0);
+    if (__pyx_t_6) {
 
-      /* "gatools/functions.pyx":130
+      /* "gatools/functions.pyx":124
  *                 break
  *         if not flag_dominated:
  *             nondominated_list.append(candidate)             # <<<<<<<<<<<<<<
  * 
  *     return nondominated_list, dominated_list
  */
-      __pyx_t_14 = __Pyx_PyList_Append(__pyx_v_nondominated_list, __pyx_v_candidate); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 130, __pyx_L1_error)
+      __pyx_t_15 = __Pyx_PyList_Append(__pyx_v_nondominated_list, __pyx_v_candidate); if (unlikely(__pyx_t_15 == ((int)-1))) __PYX_ERR(0, 124, __pyx_L1_error)
 
-      /* "gatools/functions.pyx":129
+      /* "gatools/functions.pyx":123
  *                 dominated_list.append(candidate)
  *                 break
  *         if not flag_dominated:             # <<<<<<<<<<<<<<
@@ -4621,18 +4578,19 @@ static PyObject *__pyx_pf_7gatools_9functions_20make_current_ranking_list(CYTHON
  */
     }
 
-    /* "gatools/functions.pyx":111
+    /* "gatools/functions.pyx":108
+ *     nondominated_list = []
  * 
- *     #for (i, candidate) in enumerate(current_rank_candidates):
- *     for i in range(size):             # <<<<<<<<<<<<<<
- *         candidate = current_rank_candidates[i]
+ *     for (i, candidate) in enumerate(current_rank_candidates):             # <<<<<<<<<<<<<<
  *         flag_dominated = False
+ *         if candidate in dominated_list:
  */
     __pyx_L3_continue:;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "gatools/functions.pyx":132
+  /* "gatools/functions.pyx":126
  *             nondominated_list.append(candidate)
  * 
  *     return nondominated_list, dominated_list             # <<<<<<<<<<<<<<
@@ -4640,16 +4598,16 @@ static PyObject *__pyx_pf_7gatools_9functions_20make_current_ranking_list(CYTHON
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 132, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 126, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_v_nondominated_list);
   __Pyx_GIVEREF(__pyx_v_nondominated_list);
-  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_nondominated_list);
+  PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_nondominated_list);
   __Pyx_INCREF(__pyx_v_dominated_list);
   __Pyx_GIVEREF(__pyx_v_dominated_list);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_v_dominated_list);
-  __pyx_r = __pyx_t_2;
-  __pyx_t_2 = 0;
+  PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_v_dominated_list);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
   goto __pyx_L0;
 
   /* "gatools/functions.pyx":103
@@ -4657,23 +4615,22 @@ static PyObject *__pyx_pf_7gatools_9functions_20make_current_ranking_list(CYTHON
  * 
  * def make_current_ranking_list(current_rank_candidates):             # <<<<<<<<<<<<<<
  *     cdef i, j
- *     cdef size
+ *     dominated_list = []
  */
 
   /* function exit code */
   __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_10);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_11);
-  __Pyx_XDECREF(__pyx_t_13);
+  __Pyx_XDECREF(__pyx_t_12);
+  __Pyx_XDECREF(__pyx_t_14);
   __Pyx_AddTraceback("gatools.functions.make_current_ranking_list", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_i);
-  __Pyx_XDECREF(__pyx_v_j);
-  __Pyx_XDECREF(__pyx_v_size);
   __Pyx_XDECREF(__pyx_v_dominated_list);
   __Pyx_XDECREF(__pyx_v_nondominated_list);
   __Pyx_XDECREF(__pyx_v_candidate);
@@ -4684,7 +4641,7 @@ static PyObject *__pyx_pf_7gatools_9functions_20make_current_ranking_list(CYTHON
   return __pyx_r;
 }
 
-/* "gatools/functions.pyx":135
+/* "gatools/functions.pyx":129
  * 
  * 
  * def make_pareto_ranking_list(indv_list):             # <<<<<<<<<<<<<<
@@ -4722,19 +4679,19 @@ static PyObject *__pyx_pf_7gatools_9functions_22make_pareto_ranking_list(CYTHON_
   __Pyx_RefNannySetupContext("make_pareto_ranking_list", 0);
   __Pyx_INCREF(__pyx_v_indv_list);
 
-  /* "gatools/functions.pyx":136
+  /* "gatools/functions.pyx":130
  * 
  * def make_pareto_ranking_list(indv_list):
  *     ranking_list = []             # <<<<<<<<<<<<<<
  *     while len(indv_list) > 0:
  *         (current_rank_list, indv_list) = \
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 136, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 130, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_ranking_list = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "gatools/functions.pyx":137
+  /* "gatools/functions.pyx":131
  * def make_pareto_ranking_list(indv_list):
  *     ranking_list = []
  *     while len(indv_list) > 0:             # <<<<<<<<<<<<<<
@@ -4742,18 +4699,18 @@ static PyObject *__pyx_pf_7gatools_9functions_22make_pareto_ranking_list(CYTHON_
  *                 make_current_ranking_list(indv_list)
  */
   while (1) {
-    __pyx_t_2 = PyObject_Length(__pyx_v_indv_list); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 137, __pyx_L1_error)
+    __pyx_t_2 = PyObject_Length(__pyx_v_indv_list); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 131, __pyx_L1_error)
     __pyx_t_3 = ((__pyx_t_2 > 0) != 0);
     if (!__pyx_t_3) break;
 
-    /* "gatools/functions.pyx":139
+    /* "gatools/functions.pyx":133
  *     while len(indv_list) > 0:
  *         (current_rank_list, indv_list) = \
  *                 make_current_ranking_list(indv_list)             # <<<<<<<<<<<<<<
  *         ranking_list.append(current_rank_list)
  *     return ranking_list
  */
-    __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_make_current_ranking_list); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 139, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_make_current_ranking_list); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 133, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
@@ -4766,13 +4723,13 @@ static PyObject *__pyx_pf_7gatools_9functions_22make_pareto_ranking_list(CYTHON_
       }
     }
     if (!__pyx_t_5) {
-      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_indv_list); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 139, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_indv_list); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 133, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_4)) {
         PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_v_indv_list};
-        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 139, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 133, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_GOTREF(__pyx_t_1);
       } else
@@ -4780,19 +4737,19 @@ static PyObject *__pyx_pf_7gatools_9functions_22make_pareto_ranking_list(CYTHON_
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
         PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_v_indv_list};
-        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 139, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 133, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_GOTREF(__pyx_t_1);
       } else
       #endif
       {
-        __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 139, __pyx_L1_error)
+        __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 133, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5); __pyx_t_5 = NULL;
         __Pyx_INCREF(__pyx_v_indv_list);
         __Pyx_GIVEREF(__pyx_v_indv_list);
         PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_v_indv_list);
-        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 139, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 133, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       }
@@ -4808,7 +4765,7 @@ static PyObject *__pyx_pf_7gatools_9functions_22make_pareto_ranking_list(CYTHON_
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 138, __pyx_L1_error)
+        __PYX_ERR(0, 132, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -4821,15 +4778,15 @@ static PyObject *__pyx_pf_7gatools_9functions_22make_pareto_ranking_list(CYTHON_
       __Pyx_INCREF(__pyx_t_4);
       __Pyx_INCREF(__pyx_t_6);
       #else
-      __pyx_t_4 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 138, __pyx_L1_error)
+      __pyx_t_4 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 132, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 138, __pyx_L1_error)
+      __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 132, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       #endif
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_5 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 138, __pyx_L1_error)
+      __pyx_t_5 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 132, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_7 = Py_TYPE(__pyx_t_5)->tp_iternext;
@@ -4837,7 +4794,7 @@ static PyObject *__pyx_pf_7gatools_9functions_22make_pareto_ranking_list(CYTHON_
       __Pyx_GOTREF(__pyx_t_4);
       index = 1; __pyx_t_6 = __pyx_t_7(__pyx_t_5); if (unlikely(!__pyx_t_6)) goto __pyx_L5_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_6);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_7(__pyx_t_5), 2) < 0) __PYX_ERR(0, 138, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_7(__pyx_t_5), 2) < 0) __PYX_ERR(0, 132, __pyx_L1_error)
       __pyx_t_7 = NULL;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       goto __pyx_L6_unpacking_done;
@@ -4845,11 +4802,11 @@ static PyObject *__pyx_pf_7gatools_9functions_22make_pareto_ranking_list(CYTHON_
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __pyx_t_7 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 138, __pyx_L1_error)
+      __PYX_ERR(0, 132, __pyx_L1_error)
       __pyx_L6_unpacking_done:;
     }
 
-    /* "gatools/functions.pyx":138
+    /* "gatools/functions.pyx":132
  *     ranking_list = []
  *     while len(indv_list) > 0:
  *         (current_rank_list, indv_list) = \             # <<<<<<<<<<<<<<
@@ -4861,16 +4818,16 @@ static PyObject *__pyx_pf_7gatools_9functions_22make_pareto_ranking_list(CYTHON_
     __Pyx_DECREF_SET(__pyx_v_indv_list, __pyx_t_6);
     __pyx_t_6 = 0;
 
-    /* "gatools/functions.pyx":140
+    /* "gatools/functions.pyx":134
  *         (current_rank_list, indv_list) = \
  *                 make_current_ranking_list(indv_list)
  *         ranking_list.append(current_rank_list)             # <<<<<<<<<<<<<<
  *     return ranking_list
  */
-    __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_ranking_list, __pyx_v_current_rank_list); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 140, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_ranking_list, __pyx_v_current_rank_list); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 134, __pyx_L1_error)
   }
 
-  /* "gatools/functions.pyx":141
+  /* "gatools/functions.pyx":135
  *                 make_current_ranking_list(indv_list)
  *         ranking_list.append(current_rank_list)
  *     return ranking_list             # <<<<<<<<<<<<<<
@@ -4880,7 +4837,7 @@ static PyObject *__pyx_pf_7gatools_9functions_22make_pareto_ranking_list(CYTHON_
   __pyx_r = __pyx_v_ranking_list;
   goto __pyx_L0;
 
-  /* "gatools/functions.pyx":135
+  /* "gatools/functions.pyx":129
  * 
  * 
  * def make_pareto_ranking_list(indv_list):             # <<<<<<<<<<<<<<
@@ -4967,6 +4924,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_does_left_dominate_right_2, __pyx_k_does_left_dominate_right_2, sizeof(__pyx_k_does_left_dominate_right_2), 0, 0, 1, 1},
   {&__pyx_n_s_dominated_list, __pyx_k_dominated_list, sizeof(__pyx_k_dominated_list), 0, 0, 1, 1},
   {&__pyx_n_s_dot, __pyx_k_dot, sizeof(__pyx_k_dot), 0, 0, 1, 1},
+  {&__pyx_n_s_enumerate, __pyx_k_enumerate, sizeof(__pyx_k_enumerate), 0, 0, 1, 1},
   {&__pyx_n_s_first_node_pos, __pyx_k_first_node_pos, sizeof(__pyx_k_first_node_pos), 0, 0, 1, 1},
   {&__pyx_n_s_fitness, __pyx_k_fitness, sizeof(__pyx_k_fitness), 0, 0, 1, 1},
   {&__pyx_n_s_flag_dominated, __pyx_k_flag_dominated, sizeof(__pyx_k_flag_dominated), 0, 0, 1, 1},
@@ -5018,6 +4976,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
 };
 static int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(0, 108, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -5163,24 +5122,24 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * def make_current_ranking_list(current_rank_candidates):             # <<<<<<<<<<<<<<
  *     cdef i, j
- *     cdef size
+ *     dominated_list = []
  */
-  __pyx_tuple__23 = PyTuple_Pack(10, __pyx_n_s_current_rank_candidates, __pyx_n_s_i, __pyx_n_s_j, __pyx_n_s_size, __pyx_n_s_dominated_list, __pyx_n_s_nondominated_list, __pyx_n_s_candidate, __pyx_n_s_flag_dominated, __pyx_n_s_counterpart, __pyx_n_s_does_left_dominate_right_2); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_tuple__23 = PyTuple_Pack(9, __pyx_n_s_current_rank_candidates, __pyx_n_s_i, __pyx_n_s_j, __pyx_n_s_dominated_list, __pyx_n_s_nondominated_list, __pyx_n_s_candidate, __pyx_n_s_flag_dominated, __pyx_n_s_counterpart, __pyx_n_s_does_left_dominate_right_2); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 103, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__23);
   __Pyx_GIVEREF(__pyx_tuple__23);
-  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(1, 0, 10, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_gatools_functions_pyx, __pyx_n_s_make_current_ranking_list, 103, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(1, 0, 9, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_gatools_functions_pyx, __pyx_n_s_make_current_ranking_list, 103, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(0, 103, __pyx_L1_error)
 
-  /* "gatools/functions.pyx":135
+  /* "gatools/functions.pyx":129
  * 
  * 
  * def make_pareto_ranking_list(indv_list):             # <<<<<<<<<<<<<<
  *     ranking_list = []
  *     while len(indv_list) > 0:
  */
-  __pyx_tuple__25 = PyTuple_Pack(3, __pyx_n_s_indv_list, __pyx_n_s_ranking_list, __pyx_n_s_current_rank_list); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 135, __pyx_L1_error)
+  __pyx_tuple__25 = PyTuple_Pack(3, __pyx_n_s_indv_list, __pyx_n_s_ranking_list, __pyx_n_s_current_rank_list); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 129, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__25);
   __Pyx_GIVEREF(__pyx_tuple__25);
-  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__25, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_gatools_functions_pyx, __pyx_n_s_make_pareto_ranking_list, 135, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(0, 135, __pyx_L1_error)
+  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__25, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_gatools_functions_pyx, __pyx_n_s_make_pareto_ranking_list, 129, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(0, 129, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -5513,23 +5472,23 @@ static int __pyx_pymod_exec_functions(PyObject *__pyx_pyinit_module)
  * 
  * def make_current_ranking_list(current_rank_candidates):             # <<<<<<<<<<<<<<
  *     cdef i, j
- *     cdef size
+ *     dominated_list = []
  */
   __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_7gatools_9functions_21make_current_ranking_list, NULL, __pyx_n_s_gatools_functions); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 103, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_make_current_ranking_list, __pyx_t_2) < 0) __PYX_ERR(0, 103, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "gatools/functions.pyx":135
+  /* "gatools/functions.pyx":129
  * 
  * 
  * def make_pareto_ranking_list(indv_list):             # <<<<<<<<<<<<<<
  *     ranking_list = []
  *     while len(indv_list) > 0:
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_7gatools_9functions_23make_pareto_ranking_list, NULL, __pyx_n_s_gatools_functions); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 135, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_7gatools_9functions_23make_pareto_ranking_list, NULL, __pyx_n_s_gatools_functions); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 129, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_make_pareto_ranking_list, __pyx_t_2) < 0) __PYX_ERR(0, 135, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_make_pareto_ranking_list, __pyx_t_2) < 0) __PYX_ERR(0, 129, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "gatools/functions.pyx":1
