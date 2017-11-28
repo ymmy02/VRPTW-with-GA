@@ -102,9 +102,9 @@ class NodeList(list):
             ready_time = node.get_readytime()
             due_date = node.get_duedate()
             service_time = node.get_servicetime()
-            t = max(t, ready_time) + service_time
             if t > due_date:
                 return False
+            t = max(t, ready_time) + service_time
         depot = self.get_depot()
         if t > depot.get_duedate():
             return False
