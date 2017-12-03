@@ -14,7 +14,6 @@ def main(dirname):
     # Input Data #
     ##############
     files = glob.glob(dirname + "best_solutions*")
-    print(files)
     for filename in files:
         finput = open(filename, 'r')
         line = finput.readline()
@@ -30,8 +29,6 @@ def main(dirname):
     ##########################
     # Statistical Processing #
     ##########################
-    print(nvehicles)
-    print(distances)
     nvmean = mean(nvehicles)
     nvsem = stats.sem(nvehicles)
     dimean = mean(distances)
