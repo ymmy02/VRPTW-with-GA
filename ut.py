@@ -72,7 +72,7 @@ def write_results(generations, nvehicle_avgs, distance_avgs, \
     for i in range(len(generations)):
         ge = str(generations[i]) + " "
         na = str(nvehicle_avgs[i]) + " "
-        da = str(distance_bests[i]) + " "
+        da = str(distance_avgs[i]) + " "
         nb = str(nvehicle_bests[i]) + " "
         db = str(distance_bests[i]) + "\n"
         f.write(ge + na + da + nb + db)
