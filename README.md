@@ -18,6 +18,17 @@ http://w.cba.neu.edu/~msolomon/problems.htm
 - matplotlib.pyplot
 - networkx
 
+### Analyzer
+
+- glob
+- numpy
+- scipy
+- matplotlib.pyplot
+
+### Speeding Up
+
+- cython
+
 ### Others
 
 - time
