@@ -6,8 +6,8 @@ TYPE=R1
 INDEX=1
 # input file is ${TYPE}0${INDEX}.txt ex) R101.txt
 RESULTDIR=results
-POPULATION=10
-GENERATION=10
+POPULATION=100
+GENERATION=100
 SELECTION=pareto    # pareto, wsum, ranksum
 CROSSOVER=bcrc      # uox, pmx, rc, bcrc
 MUTATION=inversion  # inversion, insersion
@@ -26,6 +26,8 @@ INPUT=${DATASETDIR}/${TYPE}/${FILE}.txt
 OUTPUT=${RESULTDIR}/${TYPE}/${FILE}
 
 mkdir -p ${OUTPUT}
+
+python3 setup.py build_ext --inplace
 
 python3 main.py ${INPUT} ${OUTPUT} ${POPULATION} \
     ${GENERATION} ${SELECTION} ${CROSSOVER} ${MUTATION} \
